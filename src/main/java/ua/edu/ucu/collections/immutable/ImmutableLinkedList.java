@@ -1,6 +1,22 @@
 package ua.edu.ucu.collections.immutable;
 
-public class ImmutableLinkedList implements ImmutableList {
+public class ImmutableLinkedList<E> implements ImmutableList {
+    private final Node<E> head;
+    private final Node<E> tail;
+
+    public ImmutableLinkedList(Node<E> head, Node<E> tail) {
+        this.head = head;
+        this.tail = tail;
+    }
+
+    public Node<E> getHead() {
+        return head;
+    }
+
+    public Node<E> getTail() {
+        return tail;
+    }
+
     @Override
     public ImmutableList add(Object e) {
         return null;
