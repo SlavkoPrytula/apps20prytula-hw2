@@ -1,15 +1,14 @@
 package ua.edu.ucu.collections.immutable;
 
-import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 public class ImmutableLinkedList<E> implements ImmutableList {
     private Node<Object> head;
-    private final Node<Object> tail;
+    private Node<Object> tail;
     public int size;
     private final ImmutableList linkedList
-            = new ImmutableLinkedList<Object>(null,
-                                                null);
+            = new ImmutableLinkedList<>(null,
+            null);
 
     public ImmutableLinkedList(Node<Object> head, Node<Object> tail) {
         this.head = head;
@@ -30,13 +29,14 @@ public class ImmutableLinkedList<E> implements ImmutableList {
     @Override
     public ImmutableList add(Object e) {
         // adds a new node the linked list
-        Node<Object> newNode = new Node<>(e, tail, null);
-        if (tail == null) {
-            head = newNode;
-        } else {
-            tail.next = newNode;
-        }
-        size++;
+//        Node<Object> newNode = new Node<>(e, tail, null);
+//        if (tail == null) {
+//            head = newNode;
+//        } else {
+//            tail.next = newNode;
+//        }
+//        size++;
+        add(size(), e);
 
         return linkedList;
     }
@@ -48,14 +48,12 @@ public class ImmutableLinkedList<E> implements ImmutableList {
             throw new IndexOutOfBoundsException();
         }
         Node<Object> node = head;
-        Node<Object> newNode = new Node<>(e, tail, null);
-        for (int i = 0; i < index; i++) {
+        Node<Object> newNode = new Node<>(e, null, null);
+        for (int i = 0; i < index - 1; i++) {
             node = node.next;
         }
-        newNode.previous = node.previous;
-        newNode.next = node; // do we have to destroy the previous connections ??
-        node.previous = newNode;
-
+        newNode.next = node.next;
+        node.next = newNode;
 
         return null;
     }
@@ -63,19 +61,55 @@ public class ImmutableLinkedList<E> implements ImmutableList {
     @Override
     public ImmutableList addAll(Object[] c) {
         // adds a new objects the linked list
-        return null;
+//        if (size() == 0) {
+//            tail.item = new Node<>(c[0], null, null); // create first node
+//            head = tail;
+//        } else {
+//            tail.next = new Node<>(c[0], null, tail);
+//        }
+//        for (int i = 1; i < c.length; i++) {
+//            tail.next = new Node<>(c[i], null, tail);
+//        }
+        addAll(0, c);
+        return linkedList;
     }
 
     @Override
     public ImmutableList addAll(int index, Object[] c) {
         // adds a new objects the linked list stating from a given position
-        return null;
+        if (index > size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        for (int i = size(); i < c.length; i++) {
+            add(i, c[i - size()]); // add element on the index++
+        }
+        return linkedList;
+//        Node<Object> node = head;
+//
+//        if (size() == 0) {
+//            head = new Node<>(c[0], null, null); // create first node
+//            head = tail;
+//        } else {
+//            for (int i = 0; i < index - 1; i++) {
+//                node = node.next;
+//            }
+//        }
+//        node.next = new Node<>(c[0], null, tail);
+//
+//        for (int i = 1; i < c.length; i++) {
+//            node.next = new Node<>(c[i], null, tail);
+//        }
+//        return null;
     }
 
     @Override
     public Object get(int index) {
         // gets the item at a given index
-        return null;
+        Node<Object> node = head;
+        for (int i = 0; i < index; i++) {
+            node = node.next;
+        }
+        return node.item;
     }
 
     @Override
@@ -89,11 +123,11 @@ public class ImmutableLinkedList<E> implements ImmutableList {
             if (i == index) {
                 node.previous.next = node.next;
                 node.item = null;
-                size--;
-                return linkedList;
+                break;
             }
             node = node.next;
         }
+        size--;
         return linkedList;
     }
 
@@ -130,7 +164,16 @@ public class ImmutableLinkedList<E> implements ImmutableList {
 
     @Override
     public ImmutableList clear() {
-        // clears the limked list
+        // clears the linked list
+        for (Node<Object> node = head; node != null;) {
+            Node<Object> next = node.next;
+            node.item = null;
+            node.next = null;
+            node.previous = null;
+            node = next;
+        }
+        head = tail = null;
+        size = 0;
         return null;
     }
 
@@ -148,10 +191,30 @@ public class ImmutableLinkedList<E> implements ImmutableList {
 
     public ImmutableLinkedList addFirst(Object e) {
         // adds an element to the beginning of the linked list
+        Node<Object> firstNode = head;
+        Node<Object> newNode = new Node<>(e, firstNode, null);
+        head = newNode;
+        if (firstNode == null) {
+            tail = newNode;
+        } else {
+            newNode.next = firstNode;
+            firstNode.previous = newNode;
+        }
+        size++;
     }
 
     public ImmutableLinkedList addLast(Object e) {
         // adds an element to the beginning of the linked list
+        Node<Object> lastNode = tail;
+        Node<Object> newNode = new Node<>(e, null, lastNode);
+        tail = newNode;
+        if (lastNode == null) {
+            head = newNode;
+        } else {
+            newNode.previous = lastNode;
+            lastNode.next = newNode;
+        }
+        size++;
     }
 
     public Object getFirst() {
@@ -169,11 +232,14 @@ public class ImmutableLinkedList<E> implements ImmutableList {
 
     public ImmutableLinkedList removeFirst() {
         // deletes the first element from the linked list
-
+        remove(0);
+        return null;
     }
 
     public ImmutableLinkedList removeLast() {
         // deletes the last element from the linked list
+        remove(size());
+        return null;
     }
 
 
