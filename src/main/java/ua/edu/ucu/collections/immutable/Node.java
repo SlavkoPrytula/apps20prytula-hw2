@@ -1,11 +1,11 @@
 package ua.edu.ucu.collections.immutable;
 
 public class Node<E> {
-    private final E item;
-    private final Node<E> previous;
-    private final Node<E> next;
+    E item;
+    Node<E> previous;
+    Node<E> next;
 
-    public Node(E item, Node<E> previous, Node<E> next) {
+    public Node(E item, Node<E> next, Node<E> previous) {
         this.item = item;
         this.previous = previous;
         this.next = next;

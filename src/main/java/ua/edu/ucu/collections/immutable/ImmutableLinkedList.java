@@ -1,29 +1,48 @@
 package ua.edu.ucu.collections.immutable;
 
-public class ImmutableLinkedList<E> implements ImmutableList {
-    private final Node<E> head;
-    private final Node<E> tail;
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
-    public ImmutableLinkedList(Node<E> head, Node<E> tail) {
+public class ImmutableLinkedList<E> implements ImmutableList {
+    private Node<Object> head;
+    private final Node<Object> tail;
+    public static int size = 0;
+    private final ImmutableList linkedList
+            = new ImmutableLinkedList<Object>(null,
+                                                null);
+
+    public ImmutableLinkedList(Node<Object> head, Node<Object> tail) {
         this.head = head;
         this.tail = tail;
     }
 
-    public Node<E> getHead() {
+    public Node<Object> getHead() {
         return head;
     }
 
-    public Node<E> getTail() {
+    public Node<Object> getTail() {
         return tail;
     }
 
     @Override
     public ImmutableList add(Object e) {
-        return null;
+        Node<Object> newNode = new Node<>(e, tail, null);
+        if (tail == null) {
+            head = newNode;
+        } else {
+            tail.next = newNode;
+        }
+        size++;
+
+        return linkedList;
     }
 
     @Override
     public ImmutableList add(int index, Object e) {
+        if (index > size()) {
+            throw new IndexOutOfBoundsException();
+        }
+
         return null;
     }
 
@@ -44,7 +63,20 @@ public class ImmutableLinkedList<E> implements ImmutableList {
 
     @Override
     public ImmutableList remove(int index) {
-        return null;
+        if (index > size()) {
+            throw new IndexOutOfBoundsException();
+        }
+        Node<Object> node = head;
+        for (int i = 0; i < size(); i++) {
+            if (i == index) {
+                node.previous.next = node.next;
+                node.item = null;
+                size--;
+                return linkedList;
+            }
+            node = node.next;
+        }
+        return linkedList;
     }
 
     @Override
@@ -54,12 +86,20 @@ public class ImmutableLinkedList<E> implements ImmutableList {
 
     @Override
     public int indexOf(Object e) {
+        Node<Object> node = head;
+        for (int i = 0; i < size(); i++) {
+            if (node.equals(e)) {
+                return i;
+            }
+            node = node.next;
+        }
+//        throw new Exception("no item found");
         return 0;
     }
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
@@ -69,7 +109,7 @@ public class ImmutableLinkedList<E> implements ImmutableList {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size() == 0;
     }
 
     @Override
@@ -87,13 +127,20 @@ public class ImmutableLinkedList<E> implements ImmutableList {
 
     public Object getFirst() {
         // gets the first element in the linked list
+        if (head == null)
+            throw new NoSuchElementException();
+        return head.item;
     }
     public Object getLast() {
         // gets the last element in the linked list
+        if (tail == null)
+            throw new NoSuchElementException();
+        return tail.item;
     }
 
     public ImmutableLinkedList removeFirst() {
         // deletes the first element from the linked list
+
     }
 
     public ImmutableLinkedList removeLast() {
