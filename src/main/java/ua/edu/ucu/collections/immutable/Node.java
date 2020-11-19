@@ -1,9 +1,9 @@
 package ua.edu.ucu.collections.immutable;
 
 public class Node<E> {
-    E item;
-    Node<E> previous;
-    Node<E> next;
+    public E item;
+    public Node<E> previous;
+    public Node<E> next;
 
     public Node(E item, Node<E> next, Node<E> previous) {
         this.item = item;

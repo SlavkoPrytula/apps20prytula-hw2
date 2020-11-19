@@ -2,18 +2,26 @@ package ua.edu.ucu.collections.immutable;
 
 import java.util.NoSuchElementException;
 
-public class ImmutableLinkedList<E> implements ImmutableList {
+public class ImmutableLinkedList implements ImmutableList {
     private Node<Object> head;
     private Node<Object> tail;
     public int size;
     private final ImmutableList linkedList
-            = new ImmutableLinkedList<>(null,
+            = new ImmutableLinkedList(null,
             null);
 
     public ImmutableLinkedList(Node<Object> head, Node<Object> tail) {
         this.head = head;
         this.tail = tail;
         this.size = 0;
+    }
+
+    public ImmutableLinkedList(Object[] c) {
+        this();
+        addAll(c);
+    }
+
+    public ImmutableLinkedList() { // ??
     }
 
     public Node<Object> getHead() {
