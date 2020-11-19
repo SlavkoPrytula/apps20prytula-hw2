@@ -3,11 +3,14 @@ package ua.edu.ucu.collections.immutable;
 import java.util.Arrays;
 
 public class ImmutableArrayList implements ImmutableList {
-    public Object[] array = {};
-    public int size;
+    static final int DEFAULT_CAPACITY = 10;
+    private Object[] array = {};
+    public static int size;
     public static int lastIndex = 0;
-    private static final int DEFAULT_CAPACITY = 10;
 
+    /**
+     * Create ImmutableArrayList with defined size
+     */
     public ImmutableArrayList(int capacityInit) {
         if (capacityInit > 0) {
             this.array = new Object[capacityInit];
@@ -16,10 +19,16 @@ public class ImmutableArrayList implements ImmutableList {
         }
     }
 
+    /**
+     * Create ImmutableArrayList with default size 10
+     */
     public ImmutableArrayList() {
         this.array = new Object[DEFAULT_CAPACITY];
     }
 
+    /**
+     * Create ImmutableArrayList from a given array
+     */
     public ImmutableArrayList(Object[] c) {
         this.array = new Object[DEFAULT_CAPACITY];
 
@@ -124,8 +133,7 @@ public class ImmutableArrayList implements ImmutableList {
 
     @Override
     public Object[] toArray() {
-//        Arrays.copyOf(array, size); // ??
-        return Arrays.copyOf(array, size);
+        return Arrays.copyOf(array, size); // ??
     }
 
     public void checkIndex(int index) {
