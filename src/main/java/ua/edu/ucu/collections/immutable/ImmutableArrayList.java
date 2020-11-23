@@ -73,7 +73,7 @@ public final class ImmutableArrayList implements ImmutableList {
         if (c.length == 0) {
             return new ImmutableArrayList(newArray);
         }
-        if (getLastIndex() == size()){
+        if (getLastIndex() == size()) {
             newArray = Arrays.copyOf(newArray, newArray.length + c.length);
         }
         // make empty space for coping
