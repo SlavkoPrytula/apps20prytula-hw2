@@ -1,25 +1,26 @@
 package ua.edu.ucu.collections.immutable;
 
-public class Node<E> {
-    public E item;
-    public Node<E> previous;
-    public Node<E> next;
+public class Node {
+    public Object item;
+    public Node previous;
+    public Node next;
 
-    public Node(E item, Node<E> next, Node<E> previous) {
+    public Node(Object item, Node next) {
         this.item = item;
-        this.previous = previous;
         this.next = next;
     }
 
-    public E getItem() {
+    public Node(Object item) {
+        this.item = item;
+        this.previous = null;
+        this.next = null;
+    }
+
+    public Object getItem() {
         return item;
     }
 
-    public Node<E> getNext() {
+    public Node getNext() {
         return next;
-    }
-
-    public Node<E> getPrevious() {
-        return previous;
     }
 }

@@ -1,119 +1,99 @@
 package ua.edu.ucu.collections.immutable;
 
+
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public class ImmutableLinkedList implements ImmutableList {
-    private Node<Object> head;
-    private Node<Object> tail;
-    public int size;
-//    private final ImmutableList linkedList
-//            = new ImmutableLinkedList(null,
-//            null);
-
-    public ImmutableLinkedList(Node<Object> head, Node<Object> tail) {
-        this.head = head;
-        this.tail = tail;
-        this.size = 0;
-    }
+    private final Node head;
+    private final Node tail;
+    private final Node[] linkedList;
 
     public ImmutableLinkedList(Object[] c) {
-        this();
-        addAll(c);
+        this.linkedList = new Node[c.length];
+        for (int i = 0; i < c.length; i++) {
+            linkedList[i] = new Node(c[i]);
+        }
+        this.head = linkedList[0];
+        this.tail = linkedList[linkedList.length - 1];
     }
 
-    public ImmutableLinkedList() { // ??
+    public ImmutableLinkedList() {
+        this.linkedList = new Node[0];
+        this.head = null;
+        this.tail = null;
     }
 
-    public Node<Object> getHead() {
+    public Node getHead() {
         // returns the head of the linked list
         return head;
     }
 
-    public Node<Object> getTail() {
+    public Node getTail() {
         // returns the tail of the linked list
         return tail;
     }
 
     @Override
-    public ImmutableList add(Object e) {
+    public ImmutableLinkedList add(Object e) {
         // adds a new node the linked list
-//        Node<Object> newNode = new Node<>(e, tail, null);
-//        if (tail == null) {
-//            head = newNode;
-//        } else {
-//            tail.next = newNode;
-//        }
-//        size++;
-        add(size(), e);
-
-        return null;
+        return add(size(), e);
     }
 
     @Override
-    public ImmutableList add(int index, Object e) {
+    public ImmutableLinkedList add(int index, Object e) {
         // adds a new node the linked list at a given position
         if (index > size()) {
             throw new IndexOutOfBoundsException();
         }
-        Node<Object> node = head;
-        Node<Object> newNode = new Node<>(e, null, null);
-        for (int i = 0; i < index - 1; i++) {
-            node = node.next;
+
+        Node[] newList = new Node[size() + 1];
+        Node newNode = new Node(e);
+
+        if (size() == 0) {
+            newList[newList.length - 1] = newNode;
+            return new ImmutableLinkedList(newList);
         }
-        newNode.next = node.next;
-        node.next = newNode;
 
-        return null;
+        System.arraycopy(linkedList, 0, newList, 0, size());
+        System.out.println(Arrays.toString(newList));
+        System.arraycopy(newList, index, newList, index + 1, size() - index);
+        System.out.println(Arrays.toString(newList));
+        newList[index] = newNode;
+
+        for (int i = 0; i < size() - 1; i++) {
+            linkedList[i].next = linkedList[i + 1];
+        }
+
+        return new ImmutableLinkedList(newList);
     }
 
     @Override
-    public ImmutableList addAll(Object[] c) {
+    public ImmutableLinkedList addAll(Object[] c) {
         // adds a new objects the linked list
-//        if (size() == 0) {
-//            tail.item = new Node<>(c[0], null, null); // create first node
-//            head = tail;
-//        } else {
-//            tail.next = new Node<>(c[0], null, tail);
-//        }
-//        for (int i = 1; i < c.length; i++) {
-//            tail.next = new Node<>(c[i], null, tail);
-//        }
-        addAll(0, c);
-        return null;
+        return addAll(0, c);
     }
 
     @Override
-    public ImmutableList addAll(int index, Object[] c) {
+    public ImmutableLinkedList addAll(int index, Object[] c) {
         // adds a new objects the linked list stating from a given position
         if (index > size()) {
             throw new IndexOutOfBoundsException();
         }
+        ImmutableLinkedList newList = new ImmutableLinkedList();
         for (int i = size(); i < c.length; i++) {
-            add(i, c[i - size()]); // add element on the index++
+            newList = add(i, c[i - size()]); // add element on the index++
         }
-        return null;
-//        Node<Object> node = head;
-//
-//        if (size() == 0) {
-//            head = new Node<>(c[0], null, null); // create first node
-//            head = tail;
-//        } else {
-//            for (int i = 0; i < index - 1; i++) {
-//                node = node.next;
-//            }
-//        }
-//        node.next = new Node<>(c[0], null, tail);
-//
-//        for (int i = 1; i < c.length; i++) {
-//            node.next = new Node<>(c[i], null, tail);
-//        }
-//        return null;
+        return newList;
     }
 
     @Override
     public Object get(int index) {
         // gets the item at a given index
-        Node<Object> node = head;
+        Node node = getHead();
+        if (node == null) {
+            return null;
+        }
         for (int i = 0; i < index; i++) {
             node = node.next;
         }
@@ -121,68 +101,55 @@ public class ImmutableLinkedList implements ImmutableList {
     }
 
     @Override
-    public ImmutableList remove(int index) {
+    public ImmutableLinkedList remove(int index) {
         // removes an element at a given index
         if (index > size()) {
             throw new IndexOutOfBoundsException();
         }
-        Node<Object> node = head;
+        Node[] newList = new Node[size()];
+        System.arraycopy(linkedList, 0, newList, 0, size());
+
         for (int i = 0; i < size(); i++) {
             if (i == index) {
-                node.previous.next = node.next;
-                node.item = null;
+                newList[i].previous.next = newList[i].next;
+                newList[i].item = null;
                 break;
             }
-            node = node.next;
         }
-        size--;
-        return null;
+        return new ImmutableLinkedList(newList);
     }
 
     @Override
     public ImmutableList set(int index, Object e) {
         // sets the new object to the node in the linked list
-        Node<Object> node = head;
-        for (int i = 0; i < index; i++) {
-            node = node.next;
-        }
-        node.item = e;
+        Node[] newList = new Node[size()];
+        System.arraycopy(linkedList, 0, newList, 0, size());
+        newList[index].item = e;
         return null;
     }
 
     @Override
     public int indexOf(Object e) {
         // returns the index of the element in the linked list
-        Node<Object> node = head;
+        Node node = getHead();
         for (int i = 0; i < size(); i++) {
             if (node.equals(e)) {
                 return i;
             }
             node = node.next;
         }
-////        throw new Exception("no item found");
         return 0;
     }
 
     @Override
     public int size() {
         // returns the size of the linked list
-        return size;
+        return linkedList.length;
     }
 
     @Override
     public ImmutableList clear() {
-        // clears the linked list
-        for (Node<Object> node = head; node != null;) {
-            Node<Object> next = node.next;
-            node.item = null;
-            node.next = null;
-            node.previous = null;
-            node = next;
-        }
-        head = tail = null;
-        size = 0;
-        return null;
+        return new ImmutableLinkedList();
     }
 
     @Override
@@ -193,63 +160,49 @@ public class ImmutableLinkedList implements ImmutableList {
 
     @Override
     public Object[] toArray() {
-        // ??converts the linked list to the linked array
-        return new Object[0];
+        // converts the linked list to the linked array
+        Object[] obj = new Object[size()];
+        Node node = getHead();
+        for (int i = 0; i < size(); i++) {
+            if (obj[i] != null) {
+                obj[i] = node.item;
+                node = node.next;
+            }
+        }
+        return obj;
     }
 
     public ImmutableLinkedList addFirst(Object e) {
         // adds an element to the beginning of the linked list
-        Node<Object> firstNode = head;
-        Node<Object> newNode = new Node<>(e, firstNode, null);
-        head = newNode;
-        if (firstNode == null) {
-            tail = newNode;
-        } else {
-            newNode.next = firstNode;
-            firstNode.previous = newNode;
-        }
-        size++;
-        return null;
+        return add(0, e);
     }
 
     public ImmutableLinkedList addLast(Object e) {
         // adds an element to the beginning of the linked list
-        Node<Object> lastNode = tail;
-        Node<Object> newNode = new Node<>(e, null, lastNode);
-        tail = newNode;
-        if (lastNode == null) {
-            head = newNode;
-        } else {
-            newNode.previous = lastNode;
-            lastNode.next = newNode;
-        }
-        size++;
-        return null;
+        return add(size() - 1, e);
     }
 
     public Object getFirst() {
         // gets the first element in the linked list
-        if (head == null)
+        if (getHead() == null)
             throw new NoSuchElementException();
-        return head.item;
+        return get(0);
     }
     public Object getLast() {
         // gets the last element in the linked list
-        if (tail == null)
+        if (getTail() == null)
             throw new NoSuchElementException();
-        return tail.item;
+        return get(size() - 1);
     }
 
     public ImmutableLinkedList removeFirst() {
         // deletes the first element from the linked list
-        remove(0);
-        return null;
+        return remove(0);
     }
 
     public ImmutableLinkedList removeLast() {
         // deletes the last element from the linked list
-        remove(size());
-        return null;
+        return remove(size() - 1);
     }
 
 

@@ -5,31 +5,28 @@ import ua.edu.ucu.collections.immutable.Node;
 
 
 public class Stack extends ImmutableLinkedList {
-    public final Node<Object> head;
-    public final Node<Object> tail;
+    private ImmutableLinkedList stack;
 
-    public Stack(Node<Object> head, Node<Object> tail) {
-        this.head = head;
-        this.tail = tail;
+    public Stack(ImmutableLinkedList stack) {
+        this.stack = stack;
     }
 
     public Object peek() {
         // Returns the object from the top of the Stack without removing it
-        Node<Object> node = head;
-        return (node == null) ? null : node.item;
+        return stack.getFirst();
     }
 
     public Object pop() {
         // Removes and returns the object from the top of the Stack
         Object node = getFirst();
-        removeFirst();
+        stack = removeFirst();
         return node;
 
     }
 
     public void push(Object e) {
         // Adds an object to the the top of the Stack
-        addFirst(e);
+        stack = addLast(e);
     }
 
 

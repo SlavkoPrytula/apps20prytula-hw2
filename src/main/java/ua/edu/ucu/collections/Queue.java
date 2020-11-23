@@ -4,31 +4,29 @@ import ua.edu.ucu.collections.immutable.Node;
 import ua.edu.ucu.collections.immutable.ImmutableLinkedList;
 
 
-public class Queue extends ImmutableLinkedList {
-    public final Node<Object> head;
-    public final Node<Object> tail;
+public class Queue {
 
-    public Queue(Node<Object> head, Node<Object> tail) {
-        this.head = head;
-        this.tail = tail;
+    private ImmutableLinkedList queue;
+
+    public Queue(ImmutableLinkedList queue) {
+        this.queue = queue;
     }
 
     public Object peek() {
         // Returns the object at the beginning of the Queue without removing it
-        Node<Object> node = head;
-        return (node == null) ? null : node.item;
+        return queue.getFirst();
     }
 
     public Object dequeue() {
         // Removes and returns the object at the beginning of the Queue
-        Object node = getFirst();
-        removeFirst();
+        Object node = queue.getFirst();
+        queue = queue.removeFirst();
         return node;
     }
 
     public void enqueue(Object e) {
         // Adds an object to the end of the Queue
-        addLast(e);
+        queue = queue.addLast(e);
     }
 
 
