@@ -17,8 +17,8 @@ public class Stack extends ImmutableLinkedList {
 
     public Object pop() {
         // Removes and returns the object from the top of the Stack
-        Object node = getFirst();
-        stack = removeFirst();
+        Object node = stack.getFirst();
+        stack = stack.removeFirst();
         return node;
 
     }

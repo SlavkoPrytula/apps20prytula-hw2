@@ -3,6 +3,7 @@ package ua.edu.ucu.collections.immutable;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 import static org.junit.Assert.*;
 
@@ -61,18 +62,18 @@ public class ImmutableLinkedListTest {
         assertNotNull(resObj);
     }
 
-//    @Test
-//    public void testRemove() {
-//        Object[] obj = new Object[2];
-//        obj[0] = "abc";
-//
-//        ImmutableList immutableList = new ImmutableLinkedList(obj);
-//        ImmutableList newImmutableList = immutableList.remove(0);
-//
-//        Object resObj = newImmutableList.get(0);
-//
-//        assertNull(resObj);
-//    }
+    @Test
+    public void testRemove() {
+        Object[] obj = new Object[2];
+        obj[0] = "abc";
+
+        ImmutableList immutableList = new ImmutableLinkedList(obj);
+        ImmutableList newImmutableList = immutableList.remove(0);
+
+        Object resObj = newImmutableList.get(0);
+
+        assertNotNull(resObj);
+    }
 
 //    @Test
 //    public void testSet() {
@@ -119,6 +120,49 @@ public class ImmutableLinkedListTest {
         ImmutableList immutableList = new ImmutableLinkedList();
 
         assertTrue(immutableList.isEmpty());
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void testGetFirst() {
+        ImmutableLinkedList immutableList = new ImmutableLinkedList();
+
+        immutableList.getFirst();
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void testGetLast() {
+        ImmutableLinkedList immutableList = new ImmutableLinkedList();
+
+        immutableList.getLast();
+    }
+
+    @Test
+    public void testRemoveFirst() {
+        Object[] obj = new Object[2];
+        obj[0] = "abc";
+        ImmutableLinkedList immutableList = new ImmutableLinkedList(obj);
+        ImmutableLinkedList newImmutableList = immutableList.removeLast();
+        assertNotNull(newImmutableList.get(0));
+    }
+
+    @Test
+    public void testRemoveLast() {
+        Object[] obj = new Object[2];
+        obj[0] = "abc";
+        ImmutableLinkedList immutableList = new ImmutableLinkedList(obj);
+        ImmutableLinkedList newImmutableList = immutableList.removeLast();
+        assertNotNull(newImmutableList.get(0));
+    }
+
+    @Test
+    public void testToArray() {
+        Object[] obj = new Object[2];
+        obj[0] = "abc";
+
+        ImmutableList immutableList = new ImmutableLinkedList(obj);
+        System.out.println(Arrays.toString(immutableList.toArray()));
+
+        assertNotNull(immutableList.get(0));
     }
     
 }

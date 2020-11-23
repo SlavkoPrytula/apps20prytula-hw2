@@ -22,18 +22,18 @@ public class QueueTest {
         assertNotNull(actualResult);
     }
 
-//    @Test
-//    public void testQueueDequeue() {
-//        // initialize
-//        Queue queue = new Queue(new ImmutableLinkedList(new Object[] {1, 2, 3}));
-//
-//        Object expectedResult = 1;
-//
-//        // preform operations
-//        Object actualResult = queue.dequeue();
-//
-//        assertEquals(expectedResult, actualResult);
-//    }
+    @Test
+    public void testQueueDequeue() {
+        // initialize
+        Queue queue = new Queue(new ImmutableLinkedList(new Object[] {1, 2, 3}));
+
+        Object expectedResult = 1;
+
+        // preform operations
+        Object actualResult = queue.dequeue();
+
+        assertEquals(expectedResult, actualResult);
+    }
 
     @Test
     public void testQueuePeek() {

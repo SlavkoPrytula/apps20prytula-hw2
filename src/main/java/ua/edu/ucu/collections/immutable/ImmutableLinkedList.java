@@ -157,11 +157,11 @@ public class ImmutableLinkedList implements ImmutableList {
     public Object[] toArray() {
         // converts the linked list to the linked array
         Object[] obj = new Object[size()];
-        Node node = getHead();
+        System.arraycopy(linkedList, 0, obj, 0, size());
         for (int i = 0; i < size(); i++) {
             if (obj[i] != null) {
+                Node node = new Node(obj[i]);
                 obj[i] = node.item;
-                node = node.next;
             }
         }
         return obj;

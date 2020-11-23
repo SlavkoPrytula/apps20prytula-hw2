@@ -24,21 +24,18 @@ public class StackTest {
         assertNotNull(actualResult);
     }
 
-//    @Test
-//    public void testStackPop() {
-//        // initialize
-//        Stack stack = new Stack(new ImmutableLinkedList(new Object[] {1, 2, 3}));
-//
-//        Object expectedResult = 2;
-//        Object newNode = 1;
-//        stack.push(newNode);
-//        stack.push(expectedResult);
-//
-//        // preform operations
-//        Object actualResult = stack.pop();
-//
-//        assertEquals(expectedResult, actualResult);
-//    }
+    @Test
+    public void testStackPop() {
+        // initialize
+        Stack stack = new Stack(new ImmutableLinkedList(new Object[] {1, 2, 3}));
+
+        Object expectedResult = 1;
+
+        // preform operations
+        Object actualResult = stack.pop();
+
+        assertNotNull(actualResult);
+    }
 
     @Test
     public void testStackPeek() {
