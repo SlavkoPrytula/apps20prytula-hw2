@@ -40,13 +40,6 @@ public final class ImmutableArrayList implements ImmutableList {
     public ImmutableArrayList(Object[] c) {
         this.array = c;
         size = 1;
-//        this.array = new Object[DEFAULT_CAPACITY];
-//
-//        array = Arrays.copyOf(array, c.length); // new buff size
-//        for (int i = 0; i < c.length; i++) {
-//            array[i] = c[i]; // copy all elements into the array
-//            lastIndex++;
-//        }
     }
 
     @Override
@@ -57,33 +50,15 @@ public final class ImmutableArrayList implements ImmutableList {
     @Override
     public ImmutableList add(int index, Object e) {
         checkIndex(index);
-        // new buff size +1 for one element
-//        array = Arrays.copyOf(array, size++);
-
         // copy array by shifting elements
         // with ind > index to the right
-//        ImmutableArrayList newArray = new ImmutableArrayList(array);
-//        System.out.println("new: " + Arrays.toString(newArray.array));
-//        int newLength = size;
-//        newLength++;
         Object[] newArray = new Object[array.length + 1];
         System.arraycopy(array, 0, newArray, 0, array.length);
 
-        if (getLastIndex() == size())
-            newArray = Arrays.copyOf(newArray, newArray.length + 1);
-
-//        if (getLastIndex() - index > 0) {
-//            int ind = getLastIndex() - index;
-//        } else {
-
-//        }
-        System.out.println(newArray.length);
         System.arraycopy(newArray, index, newArray,
                 index + 1, newArray.length - index - 1);
         newArray[index] = e;
 
-//        System.out.println("prev: " + Arrays.toString(array));
-//        System.out.println("new: " + Arrays.toString(newArray));
         return new ImmutableArrayList(newArray);
     }
 
@@ -97,16 +72,12 @@ public final class ImmutableArrayList implements ImmutableList {
         checkIndex(index);
         Object[] newArray = new Object[array.length];
         System.arraycopy(array, 0, newArray, 0, array.length);
-
         if (c.length == 0) {
             return new ImmutableArrayList(newArray);
         }
-
         if (getLastIndex() == size())
-            newArray = Arrays.copyOf(newArray, newArray.length + 1);
+            newArray = Arrays.copyOf(newArray, newArray.length + c.length);
         // make empty space for coping
-//        System.arraycopy(newArray, index, newArray,
-//                index + c.length, lastIndex - index);
         // copy elements from the given array
         // to the new empty space of the array list
         System.out.println(index);
@@ -141,7 +112,7 @@ public final class ImmutableArrayList implements ImmutableList {
         // returns the index of the element in the array list
         int ind = 0;
         for (Object el : array) {
-            if (el.equals(e)) {
+            if (el != null && el.equals(e)) {
                 return ind;
             }
             ind++;

@@ -42,6 +42,30 @@ public class ImmutableArrayListTest {
     }
 
     @Test
+    public void testAddAllZeroLen() {
+        ImmutableList immutableList = new ImmutableArrayList();
+        Object[] obj = new Object[0];
+
+        ImmutableList newImmutableList = immutableList.addAll(obj);
+
+        assertNull(immutableList.toArray()[0]);
+        assertNull(newImmutableList.toArray()[0]);
+    }
+
+    @Test
+    public void testAddAllSizeExceed() {
+        ImmutableList immutableList = new ImmutableArrayList(1);
+        ImmutableList newImmutableList = immutableList.set(0, "abc");
+        Object[] obj = new Object[1];
+        obj[0] = "abc";
+
+        ImmutableList newImmutableListS = newImmutableList.addAll(obj);
+
+        assertNull(immutableList.toArray()[0]);
+        assertEquals("abc", newImmutableListS.toArray()[1]);
+    }
+
+    @Test
     public void testAddAllIndex() {
         ImmutableList immutableList = new ImmutableArrayList();
 
@@ -92,11 +116,19 @@ public class ImmutableArrayListTest {
     @Test
     public void testIndex() {
         ImmutableList immutableList = new ImmutableArrayList();
-        ImmutableList newImmutableList = immutableList.add("abc");
+        ImmutableList newImmutableList = immutableList.add(2,"abc");
 
         Object resObj = newImmutableList.indexOf("abc");
 
-        assertEquals(0, resObj);
+        assertEquals(2, resObj);
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testIndexError() {
+        ImmutableList immutableList = new ImmutableArrayList();
+        ImmutableList newImmutableList = immutableList.add(2,"abc");
+
+        Object resObj = newImmutableList.indexOf("a");
     }
 
     @Test
