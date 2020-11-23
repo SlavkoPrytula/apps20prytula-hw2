@@ -24,6 +24,11 @@ public class ImmutableLinkedListTest {
 //
 //        assertNotNull(newImmutableList.get(1));
 //    }
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testAddIndex() {
+        ImmutableList immutableList = new ImmutableLinkedList();
+        ImmutableList newImmutableList = immutableList.add(1,"abc");
+    }
 //
 //    @Test
 //    public void testAddAll() {
