@@ -5,32 +5,21 @@ import java.util.Arrays;
 public final class ImmutableArrayList implements ImmutableList {
     static final int DEFAULT_CAPACITY = 10;
     private final Object[] array;
-    public final int size;
+    private final int size;
 
-    public int getLastIndex() {
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] == null) {
-                return i;
-            }
-        }
-        return array.length;
-    }
-
-//    public static int lastIndex = 0;
-    //    /**
-    //     * Create ImmutableArrayList with defined size
-    //     */
-    public ImmutableArrayList(int capacityInit) {
-        this.array = new Object[capacityInit];
-        size = array.length;
-    }
-//
-//    /**
-//     * Create ImmutableArrayList with default size 10
-//     */
-
+    /**
+     * Create ImmutableArrayList with default size 10
+     */
     public ImmutableArrayList() {
         this.array = new Object[DEFAULT_CAPACITY];
+        size = array.length;
+    }
+
+    /**
+     * Create ImmutableArrayList with defined size
+     */
+    public ImmutableArrayList(int capacityInit) {
+        this.array = new Object[capacityInit];
         size = array.length;
     }
 
@@ -40,6 +29,15 @@ public final class ImmutableArrayList implements ImmutableList {
     public ImmutableArrayList(Object[] c) {
         this.array = Arrays.copyOf(c, c.length);
         size = array.length;
+    }
+
+    public int getLastIndex() {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == null) {
+                return i;
+            }
+        }
+        return array.length;
     }
 
     @Override
@@ -75,8 +73,9 @@ public final class ImmutableArrayList implements ImmutableList {
         if (c.length == 0) {
             return new ImmutableArrayList(newArray);
         }
-        if (getLastIndex() == size())
+        if (getLastIndex() == size()){
             newArray = Arrays.copyOf(newArray, newArray.length + c.length);
+        }
         // make empty space for coping
         // copy elements from the given array
         // to the new empty space of the array list
@@ -129,7 +128,7 @@ public final class ImmutableArrayList implements ImmutableList {
     public ImmutableList clear() {
         Object[] newArray = new Object[array.length];
         System.arraycopy(array, 0, newArray, 0, array.length);
-        for (int i = 0; i < getLastIndex()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               + 1; i++) { // check if +1 is needed
+        for (int i = 0; i < getLastIndex() + 1; i++) {
             newArray[i] = null;
         }
         return new ImmutableArrayList(newArray);

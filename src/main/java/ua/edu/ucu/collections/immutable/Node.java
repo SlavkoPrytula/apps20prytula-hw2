@@ -1,8 +1,8 @@
 package ua.edu.ucu.collections.immutable;
 
 public class Node {
-    public Object item;
-    public Node next;
+    private final Object item;
+    private final Node next;
 
     public Node(Object item, Node next) {
         this.item = item;

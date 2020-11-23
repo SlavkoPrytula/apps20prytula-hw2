@@ -56,9 +56,7 @@ public class ImmutableLinkedList implements ImmutableList {
         }
 
         System.arraycopy(linkedList, 0, newList, 0, size());
-        System.out.println(Arrays.toString(newList));
         System.arraycopy(newList, index, newList, index + 1, size() - index);
-        System.out.println(Arrays.toString(newList));
         newList[index] = newNode;
 
         for (int i = 0; i < size() - 1; i++) {
@@ -183,14 +181,16 @@ public class ImmutableLinkedList implements ImmutableList {
 
     public Object getFirst() {
         // gets the first element in the linked list
-        if (getHead() == null)
+        if (getHead() == null) {
             throw new NoSuchElementException();
+        }
         return get(0);
     }
     public Object getLast() {
         // gets the last element in the linked list
-        if (getTail() == null)
+        if (getTail() == null){
             throw new NoSuchElementException();
+        }
         return get(size() - 1);
     }
 
