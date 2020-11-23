@@ -1,7 +1,5 @@
 package ua.edu.ucu.collections.immutable;
 
-
-import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public class ImmutableLinkedList implements ImmutableList {
@@ -188,7 +186,7 @@ public class ImmutableLinkedList implements ImmutableList {
     }
     public Object getLast() {
         // gets the last element in the linked list
-        if (getTail() == null){
+        if (getTail() == null) {
             throw new NoSuchElementException();
         }
         return get(size() - 1);
