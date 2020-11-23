@@ -2,7 +2,6 @@ package ua.edu.ucu.collections.immutable;
 
 public class Node {
     public Object item;
-    public Node previous;
     public Node next;
 
     public Node(Object item, Node next) {
@@ -12,7 +11,6 @@ public class Node {
 
     public Node(Object item) {
         this.item = item;
-        this.previous = null;
         this.next = null;
     }
 

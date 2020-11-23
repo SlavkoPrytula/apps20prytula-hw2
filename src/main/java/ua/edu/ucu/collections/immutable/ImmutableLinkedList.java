@@ -111,7 +111,6 @@ public class ImmutableLinkedList implements ImmutableList {
 
         for (int i = 0; i < size(); i++) {
             if (i == index) {
-                newList[i].previous.next = newList[i].next;
                 newList[i].item = null;
                 break;
             }

@@ -5,7 +5,7 @@ import java.util.Arrays;
 public final class ImmutableArrayList implements ImmutableList {
     static final int DEFAULT_CAPACITY = 10;
     private final Object[] array;
-    public static int size;
+    public final int size;
 
     public int getLastIndex() {
         for (int i = 0; i < array.length; i++) {
@@ -22,7 +22,7 @@ public final class ImmutableArrayList implements ImmutableList {
     //     */
     public ImmutableArrayList(int capacityInit) {
         this.array = new Object[capacityInit];
-        size = capacityInit;
+        size = array.length;
     }
 //
 //    /**
@@ -31,15 +31,15 @@ public final class ImmutableArrayList implements ImmutableList {
 
     public ImmutableArrayList() {
         this.array = new Object[DEFAULT_CAPACITY];
-        size = DEFAULT_CAPACITY;
+        size = array.length;
     }
 
     /**
      * Create ImmutableArrayList from a given array
      */
     public ImmutableArrayList(Object[] c) {
-        this.array = c;
-        size = 1;
+        this.array = Arrays.copyOf(c, c.length);
+        size = array.length;
     }
 
     @Override
