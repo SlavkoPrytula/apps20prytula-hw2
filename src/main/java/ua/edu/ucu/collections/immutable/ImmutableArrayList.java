@@ -2,47 +2,56 @@ package ua.edu.ucu.collections.immutable;
 
 import java.util.Arrays;
 
-public class ImmutableArrayList implements ImmutableList {
+public final class ImmutableArrayList implements ImmutableList {
     static final int DEFAULT_CAPACITY = 10;
-    private Object[] array = {};
+    private final Object[] array;
     public static int size;
-    public static int lastIndex = 0;
 
-    /**
-     * Create ImmutableArrayList with defined size
-     */
-    public ImmutableArrayList(int capacityInit) {
-        if (capacityInit > 0) {
-            this.array = new Object[capacityInit];
-        } else if (capacityInit == 0) {
-            throw new IllegalArgumentException("unsuitable value");
+    public int getLastIndex() {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == null) {
+                return i;
+            }
         }
+        return array.length;
     }
 
-    /**
-     * Create ImmutableArrayList with default size 10
-     */
+//    public static int lastIndex = 0;
+    //    /**
+    //     * Create ImmutableArrayList with defined size
+    //     */
+    public ImmutableArrayList(int capacityInit) {
+        this.array = new Object[capacityInit];
+        size = capacityInit;
+    }
+//
+//    /**
+//     * Create ImmutableArrayList with default size 10
+//     */
+
     public ImmutableArrayList() {
         this.array = new Object[DEFAULT_CAPACITY];
+        size = DEFAULT_CAPACITY;
     }
 
     /**
      * Create ImmutableArrayList from a given array
      */
     public ImmutableArrayList(Object[] c) {
-        this.array = new Object[DEFAULT_CAPACITY];
-
-        array = Arrays.copyOf(array, c.length); // new buff size
-        for (int i = 0; i < c.length; i++) {
-            array[i] = c[i]; // copy all elements into the array
-            lastIndex++;
-        }
+        this.array = c;
+        size = 1;
+//        this.array = new Object[DEFAULT_CAPACITY];
+//
+//        array = Arrays.copyOf(array, c.length); // new buff size
+//        for (int i = 0; i < c.length; i++) {
+//            array[i] = c[i]; // copy all elements into the array
+//            lastIndex++;
+//        }
     }
 
     @Override
     public ImmutableList add(Object e) {
-        add(size, e);
-        return null;
+        return add(getLastIndex(), e);
     }
 
     @Override
@@ -53,32 +62,58 @@ public class ImmutableArrayList implements ImmutableList {
 
         // copy array by shifting elements
         // with ind > index to the right
-        System.arraycopy(array, index, array,
-                index + 1, size - index);
-        array[index] = e;
-        return null;
+//        ImmutableArrayList newArray = new ImmutableArrayList(array);
+//        System.out.println("new: " + Arrays.toString(newArray.array));
+//        int newLength = size;
+//        newLength++;
+        Object[] newArray = new Object[array.length + 1];
+        System.arraycopy(array, 0, newArray, 0, array.length);
+
+        if (getLastIndex() == size())
+            newArray = Arrays.copyOf(newArray, newArray.length + 1);
+
+//        if (getLastIndex() - index > 0) {
+//            int ind = getLastIndex() - index;
+//        } else {
+
+//        }
+        System.out.println(newArray.length);
+        System.arraycopy(newArray, index, newArray,
+                index + 1, newArray.length - index - 1);
+        newArray[index] = e;
+
+//        System.out.println("prev: " + Arrays.toString(array));
+//        System.out.println("new: " + Arrays.toString(newArray));
+        return new ImmutableArrayList(newArray);
     }
 
     @Override
     public ImmutableList addAll(Object[] c) {
-        addAll(size, c);
-        return null;
+        return addAll(getLastIndex(), c);
     }
 
     @Override
     public ImmutableList addAll(int index, Object[] c) {
         checkIndex(index);
+        Object[] newArray = new Object[array.length];
+        System.arraycopy(array, 0, newArray, 0, array.length);
+
         if (c.length == 0) {
-            return null;
+            return new ImmutableArrayList(newArray);
         }
+
+        if (getLastIndex() == size())
+            newArray = Arrays.copyOf(newArray, newArray.length + 1);
         // make empty space for coping
-        System.arraycopy(array, index, array,
-                index + c.length, size - index);
+//        System.arraycopy(newArray, index, newArray,
+//                index + c.length, lastIndex - index);
         // copy elements from the given array
         // to the new empty space of the array list
-        System.arraycopy(c, 0, array,
-                index, index + c.length);
-        return null;
+        System.out.println(index);
+        System.out.println(newArray.length);
+        System.arraycopy(c, 0, newArray,
+                index, c.length);
+        return new ImmutableArrayList(newArray);
     }
 
     @Override
@@ -89,15 +124,16 @@ public class ImmutableArrayList implements ImmutableList {
 
     @Override
     public ImmutableList remove(int index) {
-        set(index, null);
-        return null;
+        return set(index, null);
     }
 
     @Override
     public ImmutableList set(int index, Object e) {
         checkIndex(index);
-        array[index] = e;
-        return null;
+        Object[] newArray = new Object[array.length];
+        System.arraycopy(array, 0, newArray, 0, array.length);
+        newArray[index] = e;
+        return new ImmutableArrayList(newArray);
     }
 
     @Override
@@ -115,15 +151,17 @@ public class ImmutableArrayList implements ImmutableList {
 
     @Override
     public int size() {
-        return size;
+        return array.length;
     }
 
     @Override
     public ImmutableList clear() {
-        for (int i = 0; i < lastIndex + 1; i++) { // check if +1 is needed
-            array[i] = null;
+        Object[] newArray = new Object[array.length];
+        System.arraycopy(array, 0, newArray, 0, array.length);
+        for (int i = 0; i < getLastIndex()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               + 1; i++) { // check if +1 is needed
+            newArray[i] = null;
         }
-        return null;
+        return new ImmutableArrayList(newArray);
     }
 
     @Override
@@ -133,11 +171,11 @@ public class ImmutableArrayList implements ImmutableList {
 
     @Override
     public Object[] toArray() {
-        return Arrays.copyOf(array, size); // ??
+        return Arrays.copyOf(array, size());
     }
 
     public void checkIndex(int index) {
-        if (index > size) {
+        if (index > size()) {
             throw new IndexOutOfBoundsException("illegal index");
         }
     }

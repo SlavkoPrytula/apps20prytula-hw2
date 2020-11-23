@@ -7,8 +7,8 @@ public class ImmutableLinkedListTest {
     
     @Test
     public void testListAdd() {
-        ImmutableList immutableList = ...;
-        ImmutableList newImmutableList = immutableList.add("abc");
+//        ImmutableList immutableList = ...;
+//        ImmutableList newImmutableList = immutableList.add("abc");
 
     }
     

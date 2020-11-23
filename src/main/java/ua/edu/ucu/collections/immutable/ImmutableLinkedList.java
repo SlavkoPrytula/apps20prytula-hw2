@@ -6,9 +6,9 @@ public class ImmutableLinkedList implements ImmutableList {
     private Node<Object> head;
     private Node<Object> tail;
     public int size;
-    private final ImmutableList linkedList
-            = new ImmutableLinkedList(null,
-            null);
+//    private final ImmutableList linkedList
+//            = new ImmutableLinkedList(null,
+//            null);
 
     public ImmutableLinkedList(Node<Object> head, Node<Object> tail) {
         this.head = head;
@@ -46,7 +46,7 @@ public class ImmutableLinkedList implements ImmutableList {
 //        size++;
         add(size(), e);
 
-        return linkedList;
+        return null;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class ImmutableLinkedList implements ImmutableList {
 //            tail.next = new Node<>(c[i], null, tail);
 //        }
         addAll(0, c);
-        return linkedList;
+        return null;
     }
 
     @Override
@@ -91,7 +91,7 @@ public class ImmutableLinkedList implements ImmutableList {
         for (int i = size(); i < c.length; i++) {
             add(i, c[i - size()]); // add element on the index++
         }
-        return linkedList;
+        return null;
 //        Node<Object> node = head;
 //
 //        if (size() == 0) {
@@ -136,7 +136,7 @@ public class ImmutableLinkedList implements ImmutableList {
             node = node.next;
         }
         size--;
-        return linkedList;
+        return null;
     }
 
     @Override
@@ -209,6 +209,7 @@ public class ImmutableLinkedList implements ImmutableList {
             firstNode.previous = newNode;
         }
         size++;
+        return null;
     }
 
     public ImmutableLinkedList addLast(Object e) {
@@ -223,6 +224,7 @@ public class ImmutableLinkedList implements ImmutableList {
             lastNode.next = newNode;
         }
         size++;
+        return null;
     }
 
     public Object getFirst() {
